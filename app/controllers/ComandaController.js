@@ -36,15 +36,49 @@ exports.getComandas = async (req, res, next) => {
     res.send(comandas);
 };
 
+exports.getComandaItems = async (req, res, next) => {
+    const esta_aberta = req.query.esta_aberta ? req.query.esta_aberta : false;
+    const estoque_abatido = req.query.estoque_abatido ? req.query.estoque_abatido : false;
+    const totalComandaItem = [];
+    const comandas = await Comanda.findAll({ 
+        where: {
+            esta_aberta,
+            estoque_abatido
+        }
+    });
+    console.log(comandas);
+    for (const comanda of comandas) {
+        const items = await ComandaItem.findAll({
+            where: {
+                id_comanda: comanda.id_comanda
+            },
+            raw: true,
+        });
+        for (const item of items) {
+            const produto = await Produto.findAll({
+                where: {
+                    id_produto: item.id_produto
+                },
+                raw: true
+            });
+            item.produto = produto[0];
+            totalComandaItem.push(item);
+        }
+    }
+
+    res.send(totalComandaItem);
+}
+
 exports.patchComanda = async (req, res, next) => {
     const id = req.params.comandaId;
     const esta_aberta = req.body.esta_aberta;
-
-    await Comanda.update({ esta_aberta }, {
+    const estoque_abatido = req.body.estoque_abatido;
+    await Comanda.update({ esta_aberta, estoque_abatido }, {
         where: {
             id_comanda: id
         }
     });
+
     res.send({
         comanda: "ok"
     });

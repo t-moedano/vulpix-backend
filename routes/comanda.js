@@ -7,6 +7,8 @@ router.get('/comandas', ComandaController.getComandas);
 
 router.post('/comandas', ComandaController.postComanda);
 
+router.get('/comandas/item', ComandaController.getComandaItems);
+
 router.get('/comandas/:comandaId', ComandaController.getComandaById);
 
 router.post('/comandas/:comandaId/item', ComandaController.postComandaItem);

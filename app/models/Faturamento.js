@@ -1,7 +1,7 @@
 const sequelize = require('../../config/database');
 const { DataTypes } = require('sequelize');
 
-const Faturamento = sequelize.define('estoque', {
+const Faturamento = sequelize.define('faturamento', {
     data_faturamento: {
         type: DataTypes.DATE,
         allowNull: false,
