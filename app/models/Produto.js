@@ -9,7 +9,8 @@ const Produto = sequelize.define('produto', {
         primaryKey: true
     },
     nome: { type: DataTypes.INTEGER },
-    preco_venda: { type: DataTypes.FLOAT, }
+    preco_venda: { type: DataTypes.FLOAT, },
+    link_imagem: { type: DataTypes.STRING }
 });
 
 module.exports = Produto;
